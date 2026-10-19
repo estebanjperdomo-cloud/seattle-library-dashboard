@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evolución de Formatos Digitales (2006–2025) | Biblioteca Pública de Seattle</title>
+  
+  <!-- Apache ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+
+  <!-- AG Grid Community 32 CDN & Themes -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.3.3/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@32.3.3/styles/ag-theme-quartz.css">
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@32.3.3/dist/ag-grid-community.min.js"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --duke-navy: #012169;
+      --duke-royal: #00539B;
+      --duke-copper: #C84E00;
+      --duke-persimmon: #E89923;
+      --duke-eno: #339898;
+      --duke-magnolia: #1D6363;
+      --duke-ironweed: #993399;
+      --duke-shale: #0577B1;
+      --duke-cast-iron: #262626;
+      --duke-graphite: #666666;
+      --duke-granite: #B5B5B5;
+      --duke-limestone: #E5E5E5;
+      --duke-hatteras: #E2E6ED;
+      --duke-whisper: #F8F9FA;
+      --white: #FFFFFF;
+      --card-shadow: 0 4px 20px rgba(1, 33, 105, 0.08);
+      --card-shadow-hover: 0 8px 30px rgba(1, 33, 105, 0.12);
+      --radius: 12px;
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #F4F6F9;
+      color: var(--duke-cast-iron);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Contenedor Principal */
+    .dashboard-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px 60px 24px;
+    }
+
+    /* Encabezado */
+    header.dashboard-header {
+      background: linear-gradient(135deg, var(--duke-navy) 0%, #001540 100%);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 30px rgba(1, 33, 105, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.dashboard-header::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(0, 83, 155, 0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      color: #E2E6ED;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .badge-pill span.dot {
+      width: 8px;
+      height: 8px;
+      background-color: #00D084;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    h1.dashboard-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    p.dashboard-subtitle {
+      font-size: 1.05rem;
+      color: #CAD5E2;
+      max-width: 880px;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .header-metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 0.85rem;
+      color: #B5C6D8;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 16px;
+    }
+
+    .header-metadata-item strong {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* Sección de Hallazgo Clave Destacado */
+    .finding-section {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      box-shadow: var(--card-shadow);
+      border-left: 6px solid var(--duke-copper);
+      border-top: 1px solid var(--duke-limestone);
+      border-right: 1px solid var(--duke-limestone);
+      border-bottom: 1px solid var(--duke-limestone);
+      position: relative;
+    }
+
+    .finding-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .finding-icon-wrap {
+      width: 36px;
+      height: 36px;
+      background: rgba(200, 78, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--duke-copper);
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .finding-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--duke-navy);
+      letter-spacing: -0.01em;
+    }
+
+    .finding-content {
+      font-size: 1.05rem;
+      color: var(--duke-cast-iron);
+      line-height: 1.7;
+    }
+
+    /* Contenedor del Gráfico Interactivo */
+    .chart-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--duke-limestone);
+      margin-bottom: 28px;
+    }
+
+    .chart-header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--duke-limestone);
+    }
+
+    .chart-heading h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--duke-navy);
+      margin-bottom: 4px;
+    }
+
+    .chart-heading p {
+      font-size: 0.88rem;
+      color: var(--duke-graphite);
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--duke-whisper);
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--duke-limestone);
+    }
+
+    .btn-toggle {
+      border: none;
+      background: transparent;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--duke-graphite);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .btn-toggle.active {
+      background: var(--duke-navy);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(1, 33, 105, 0.2);
+    }
+
+    .btn-toggle:hover:not(.active) {
+      color: var(--duke-navy);
+    }
+
+    /* Gráfico Apache ECharts */
+    #echarts-chart, #plotly-chart {
+      width: 100%;
+      min-height: 480px;
+      position: relative;
+    }
+
+    /* Controles de la Carrera de Barras (Bar Race) */
+    .race-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      background: #F8F9FA;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--duke-limestone);
+      margin-bottom: 20px;
+    }
+
+    .race-playback-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-race {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--duke-navy);
+      color: var(--white);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .btn-race:hover {
+      background: var(--duke-royal);
+      box-shadow: 0 2px 8px rgba(1, 33, 105, 0.25);
+    }
+
+    .btn-race-secondary {
+      background: transparent;
+      color: var(--duke-cast-iron);
+      border: 1px solid var(--duke-granite);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .btn-race-secondary:hover {
+      border-color: var(--duke-navy);
+      color: var(--duke-navy);
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+      max-width: 360px;
+    }
+
+    .slider-container input[type="range"] {
+      flex: 1;
+      accent-color: var(--duke-navy);
+      cursor: pointer;
+      height: 6px;
+    }
+
+    .slider-year-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--duke-graphite);
+    }
+
+    .race-year-badge {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--duke-navy);
+      background: #FFFFFF;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--duke-limestone);
+      min-width: 65px;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Tarjeta de la Tabla AG Grid */
+    .table-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--duke-limestone);
+      margin-bottom: 28px;
+    }
+
+    .table-header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--duke-limestone);
+    }
+
+    .table-heading h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--duke-navy);
+      margin-bottom: 4px;
+    }
+
+    .table-heading p {
+      font-size: 0.88rem;
+      color: var(--duke-graphite);
+    }
+
+    /* Personalización del tema Quartz de AG Grid con estética Duke */
+    .ag-theme-quartz {
+      --ag-header-background-color: #F8F9FA;
+      --ag-header-foreground-color: var(--duke-navy);
+      --ag-header-cell-hover-background-color: #EEF2F6;
+      --ag-font-family: 'Inter', -apple-system, sans-serif;
+      --ag-font-size: 13px;
+      --ag-selected-row-background-color: rgba(1, 33, 105, 0.08);
+      --ag-row-hover-color: rgba(1, 33, 105, 0.04);
+      --ag-border-color: var(--duke-limestone);
+      --ag-border-radius: 8px;
+    }
+
+    /* Estados de Carga y Error */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
+      color: var(--duke-graphite);
+    }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid var(--duke-limestone);
+      border-top-color: var(--duke-royal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-banner {
+      background-color: #FFF2F0;
+      border: 1px solid #FFCCC7;
+      color: #A8071A;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+
+    .error-banner strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    /* Pie de Página y Metodología */
+    footer.dashboard-footer {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      border: 1px solid var(--duke-limestone);
+      box-shadow: var(--card-shadow);
+      font-size: 0.85rem;
+      color: var(--duke-graphite);
+      line-height: 1.6;
+    }
+
+    .footer-title {
+      font-weight: 700;
+      color: var(--duke-cast-iron);
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 16px 12px 40px 12px;
+      }
+      header.dashboard-header {
+        padding: 28px 20px;
+      }
+      h1.dashboard-title {
+        font-size: 1.6rem;
+      }
+      .finding-section, .chart-card {
+        padding: 20px 16px;
+      }
+      #plotly-chart {
+        min-height: 420px;
+      }
+      .chart-header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Estilos de Accesibilidad (WCAG AA & data-viz-accessibility) */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 20px;
+      background: var(--duke-navy);
+      color: var(--white);
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      z-index: 9999;
+      text-decoration: none;
+      transition: top 0.2s ease;
+      border: 2px solid var(--white);
+    }
+
+    .skip-link:focus {
+      top: 20px;
+      outline: 3px solid var(--duke-royal);
+    }
+
+    button:focus-visible,
+    input[type="range"]:focus-visible,
+    a:focus-visible,
+    [tabindex="0"]:focus-visible {
+      outline: 3px solid var(--duke-royal) !important;
+      outline-offset: 3px !important;
+      box-shadow: 0 0 0 4px rgba(0, 83, 155, 0.3) !important;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--white);
+      color: var(--duke-navy);
+      border: 1px solid var(--duke-granite);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .btn-download:hover {
+      background-color: var(--duke-whisper);
+      border-color: var(--duke-navy);
+      color: var(--duke-royal);
+    }
+
+    .chart-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .keyboard-hint {
+      font-size: 0.8rem;
+      color: var(--duke-graphite);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: #FFFFFF;
+      border-radius: 6px;
+      border: 1px dashed var(--duke-limestone);
+    }
+
+    .kbd-key {
+      background: #E5E5E5;
+      border: 1px solid #B5B5B5;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      font-weight: 700;
+      color: #262626;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Enlace accesible de salto al contenido principal -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <main id="main-content" class="dashboard-container">
+    
+    <!-- Encabezado Principal -->
+    <header class="dashboard-header">
+      <div class="badge-pill">
+        <span class="dot"></span> Carga Dinámica en Tiempo Real
+      </div>
+      <h1 class="dashboard-title">Evolución de Formatos Digitales (2006–2025)</h1>
+      <p class="dashboard-subtitle">
+        Análisis interactivo de la circulación y composición de préstamos digitales del Sistema de Bibliotecas Públicas de Seattle (<em>Seattle Public Library</em>) a lo largo de 20 años continuos.
+      </p>
+      
+      <div class="header-metadata">
+        <div class="header-metadata-item">
+          <strong>Fuente:</strong> Seattle Open Data (Dataset <code>tmmm-ytt6</code>)
+        </div>
+        <div class="header-metadata-item">
+          <strong>Archivo CSV cargado:</strong> <code>dashboard_data/digital_material_type_shares_by_year.csv</code>
+        </div>
+        <div class="header-metadata-item">
+          <strong>Espacio Muestral:</strong> Muestra balanceada de 250,000 títulos (12,500 filas/año)
+        </div>
+      </div>
+    </header>
+
+    <!-- Hallazgo Destacado Derivado de los Datos (Calculado en tiempo de ejecución) -->
+    <section class="finding-section">
+      <div class="finding-header">
+        <div class="finding-icon-wrap">💡</div>
+        <h2 class="finding-title">Hallazgo Analítico</h2>
+      </div>
+      <div id="dynamic-finding" class="finding-content">
+        <em>Calculando hallazgo directamente desde el archivo CSV...</em>
+      </div>
+    </section>
+
+    <!-- Tarjeta del Gráfico Apache ECharts (Bar Race) -->
+    <section class="chart-card">
+      <div class="chart-header-bar">
+        <div class="chart-heading">
+          <h2>Carrera de Formatos Digitales (Bar Race 2006–2025)</h2>
+          <p>Animación interactiva que ilustra la carrera anual por la cuota de circulación de cada formato digital.</p>
+        </div>
+        <div class="chart-actions">
+          <a href="dashboard_data/digital_material_type_shares_by_year.csv" download="digital_material_type_shares_by_year.csv" class="btn-download" title="Descargar datos de formatos en formato CSV">
+            ⬇ Descargar CSV
+          </a>
+        </div>
+      </div>
+
+      <!-- Barra de Controles de la Carrera (Bar Race) -->
+      <div class="race-controls-bar">
+        <div class="race-playback-group">
+          <button id="btn-play-race" class="btn-race" onclick="togglePlayRace()" aria-label="Reproducir animación de carrera de formatos">
+            <span id="play-icon">▶</span> <span id="play-text">Reproducir</span>
+          </button>
+          <button id="btn-restart-race" class="btn-race-secondary" onclick="restartRace()" title="Reiniciar desde 2006" aria-label="Reiniciar animación desde el año 2006">
+            ↺ Reiniciar
+          </button>
+        </div>
+
+        <div class="slider-container">
+          <label for="race-year-slider" class="visually-hidden">Año de la carrera (2006 a 2025)</label>
+          <span class="slider-year-label" aria-hidden="true">2006</span>
+          <input type="range" id="race-year-slider" min="2006" max="2025" step="1" value="2006" oninput="onSliderInput(this.value)" aria-label="Año de la carrera" aria-valuemin="2006" aria-valuemax="2025" aria-valuenow="2006">
+          <span class="slider-year-label" aria-hidden="true">2025</span>
+        </div>
+
+        <div class="race-year-display">
+          <span id="race-year-badge" class="race-year-badge" aria-live="polite">2006</span>
+        </div>
+
+        <!-- Selector de Métrica -->
+        <div class="control-group" role="group" aria-label="Selector de métrica">
+          <button id="btn-checkout-share" class="btn-toggle active" onclick="switchMetric('checkout_share')" aria-pressed="true">
+            Cuota de Préstamos (%)
+          </button>
+          <button id="btn-row-share" class="btn-toggle" onclick="switchMetric('row_share')" aria-pressed="false">
+            Cuota de Catálogo (%)
+          </button>
+        </div>
+      </div>
+
+      <div class="keyboard-hint" aria-hidden="true">
+        <span>💡 <strong>Navegación accesible:</strong> Use <kbd class="kbd-key">Tab</kbd> para alternar controles y flechas <kbd class="kbd-key">←</kbd> <kbd class="kbd-key">→</kbd> en el deslizador para avanzar o retroceder el año.</span>
+      </div>
+
+      <!-- Contenedor del Gráfico y Estado de Carga -->
+      <div id="chart-loading-state" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando datos desde <code>dashboard_data/digital_material_type_shares_by_year.csv</code>...</p>
+      </div>
+      <div id="echarts-chart" role="region" aria-label="Visualización animada: Carrera de formatos digitales por año (2006 a 2025)" tabindex="0" style="display: none;"></div>
+    </section>
+
+    <!-- Tarjeta de la Tabla: Formato Más Popular por Año (AG Grid Community 32) -->
+    <section class="table-card">
+      <div class="table-header-bar">
+        <div class="table-heading">
+          <h2>Formato Digital Más Popular por Año (2006–2025)</h2>
+          <p>Tabla interactiva con el formato de mayor circulación digital en cada año según la muestra balanceada.</p>
+        </div>
+        <div class="chart-actions">
+          <a href="dashboard_data/digital_material_type_shares_by_year.csv" download="digital_material_type_shares_by_year.csv" class="btn-download" title="Descargar datos en formato CSV">
+            ⬇ Descargar CSV
+          </a>
+        </div>
+      </div>
+      <div id="material-grid" class="ag-theme-quartz" role="region" aria-label="Tabla de formato digital más popular por año" tabindex="0" style="width: 100%; height: 500px;"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- Sección 2: Títulos Más Prestados por Año (top_sampled_titles)     -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Hallazgo Derivado de los Títulos Más Prestados -->
+    <section class="finding-section">
+      <div class="finding-header">
+        <div class="finding-icon-wrap">📖</div>
+        <h2 class="finding-title">Hallazgo: Títulos Más Prestados</h2>
+      </div>
+      <div id="titles-finding" class="finding-content">
+        <em>Calculando hallazgo desde el archivo CSV de títulos...</em>
+      </div>
+    </section>
+
+    <!-- Gráfico Interactivo: Títulos Más Prestados por Año -->
+    <section class="chart-card">
+      <div class="chart-header-bar">
+        <div class="chart-heading">
+          <h2>Títulos Digitales Más Prestados por Año (2006–2025)</h2>
+          <p>El título #1 de cada año dentro de la muestra balanceada, con sus préstamos muestreados y formato.</p>
+        </div>
+        <div class="chart-actions">
+          <a href="dashboard_data/digital_top_sampled_titles_by_year.csv" download="digital_top_sampled_titles_by_year.csv" class="btn-download" title="Descargar datos de títulos en formato CSV">
+            ⬇ Descargar CSV
+          </a>
+        </div>
+      </div>
+
+      <div id="titles-chart-loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando datos desde <code>dashboard_data/digital_top_sampled_titles_by_year.csv</code>...</p>
+      </div>
+      <div id="titles-echarts-chart" role="region" aria-label="Gráfico de barras: Título digital más prestado de cada año con su formato y volumen de préstamos" tabindex="0" style="display: none; width: 100%; min-height: 520px;"></div>
+    </section>
+
+    <!-- Tarjeta de la Tabla Accesible: Títulos Digitales Más Prestados (AG Grid) -->
+    <section class="table-card">
+      <div class="table-header-bar">
+        <div class="table-heading">
+          <h2>Tabla de Datos: Título Digital Más Prestado por Año (2006–2025)</h2>
+          <p>Equivalente tabular accesible con los metadatos completos y préstamos muestreados del título #1 de cada año.</p>
+        </div>
+        <div class="chart-actions">
+          <a href="dashboard_data/digital_top_sampled_titles_by_year.csv" download="digital_top_sampled_titles_by_year.csv" class="btn-download" title="Descargar datos de títulos en formato CSV">
+            ⬇ Descargar CSV
+          </a>
+        </div>
+      </div>
+      <div id="titles-grid" class="ag-theme-quartz" role="region" aria-label="Tabla de datos accesibles del título digital más prestado por año" tabindex="0" style="width: 100%; height: 500px;"></div>
+    </section>
+
+    <!-- Pie de Página y Advertencia Metodológica -->
+    <footer class="dashboard-footer">
+      <div class="footer-title">Notas Metodológicas y Procedencia de Datos</div>
+      <p>
+        <strong>1. Datos Muestreados:</strong> Las cifras presentadas corresponden a la muestra estratificada y balanceada de 250,000 registros por clase de uso de la Biblioteca Pública de Seattle (12,500 registros por cada año completo entre 2006 y 2025). Reflejan fielmente la distribución de consumo dentro del espacio muestral analizado.<br>
+        <strong>2. Agrupación de Formatos:</strong> Para consistencia longitudinal y comparabilidad matemática, las variantes de registro (ej. <em>EBOOK</em> y <em>Ebook</em>, <em>AUDIOBOOK</em> y <em>Audiobook</em>) se consolidan por tipo canónico. Los formatos con participaciones menores (música, video, revistas, cómics) se agrupan descriptivamente.<br>
+        <strong>3. Carga en Tiempo Real:</strong> Esta aplicación estática no almacena datos embebidos; consulta directamente el archivo CSV en el servidor cliente mediante JavaScript asíncrono al momento de la renderización.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Lógica JavaScript para Carga Dinámica y Renderizado Plotly -->
+  <script>
+    // Paleta oficial de colores inspirada en Duke University
+    const DUKE_PALETTE = {
+      ebook: '#012169',        // Duke Navy
+      audiobook: '#C84E00',    // Duke Copper
+      songMusic: '#339898',    // Eno / Teal
+      magazine: '#993399',     // Ironweed / Púrpura
+      video: '#0577B1',        // Shale Blue
+      comic: '#A1B70D',        // Piedmont / Verde
+      other: '#666666'         // Graphite
+    };
+
+    // Almacenamiento en memoria de datos parseados
+    let parsedDataset = [];
+    let currentMetric = 'checkout_share'; // 'checkout_share' o 'row_share'
+
+    /**
+     * Parsea un archivo CSV en texto plano a un arreglo de objetos JavaScript.
+     * Maneja campos entrecomillados que contienen comas internas (RFC 4180).
+     */
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) return [];
+
+      // Función interna que divide una línea respetando comillas
+      function splitCSVLine(line) {
+        const fields = [];
+        let current = '';
+        let inQuotes = false;
+        for (let c = 0; c < line.length; c++) {
+          const ch = line[c];
+          if (ch === '"') {
+            inQuotes = !inQuotes;
+          } else if (ch === ',' && !inQuotes) {
+            fields.push(current.trim());
+            current = '';
+          } else {
+            current += ch;
+          }
+        }
+        fields.push(current.trim());
+        return fields;
+      }
+
+      const headers = splitCSVLine(lines[0]);
+      const records = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+        const values = splitCSVLine(line);
+        const record = {};
+        headers.forEach((header, index) => {
+          record[header] = values[index] !== undefined ? values[index] : '';
+        });
+        records.push(record);
+      }
+      return records;
+    }
+
+    /**
+     * Carga el archivo CSV en tiempo de ejecución desde dashboard_data/
+     */
+    async function loadDataset() {
+      const csvPath = 'dashboard_data/digital_material_type_shares_by_year.csv';
+      try {
+        const response = await fetch(csvPath);
+        if (!response.ok) {
+          throw new Error(`Error HTTP ${response.status} al intentar cargar "${csvPath}"`);
+        }
+        const textData = await response.text();
+        parsedDataset = parseCSV(textData);
+
+        if (parsedDataset.length === 0) {
+          throw new Error('El archivo CSV se leyó correctamente pero no contiene filas de datos.');
+        }
+
+        computeAndDisplayFinding();
+        raceDataStore = prepareRaceData(parsedDataset);
+        renderInteractiveChart(currentMetric);
+        initAgGrid(parsedDataset);
+
+        // Iniciar la carrera animada tras breve pausa solo si el usuario no prefiere reducción de movimiento
+        const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReducedMotion) {
+          setTimeout(() => {
+            playRace();
+          }, 700);
+        }
+      } catch (err) {
+        console.error('Error al cargar datos:', err);
+        const chartElem = document.getElementById('echarts-chart');
+        chartElem.style.display = 'block';
+        chartElem.innerHTML = `
+          <div class="error-banner">
+            <strong>No se pudo cargar el archivo de datos directamente:</strong>
+            <p>${err.message}</p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #555;">
+              <em>Nota para ejecución local:</em> Si está abriendo este archivo directamente con protocolo <code>file://</code>, el navegador puede bloquear la lectura con <code>fetch()</code> por políticas de seguridad (CORS). Ejecute un servidor HTTP ligero desde la terminal:
+              <br><code style="background:#eee; padding: 2px 6px; border-radius:4px; display:inline-block; margin-top:4px;">.venv/bin/python -m http.server 8000</code> y abra <code>http://localhost:8000/dashboard/index.html</code>.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * Procesa y normaliza los registros del CSV agrupando formatos equivalentes
+     */
+    function processSeriesData(metricKey) {
+      // Identificar todos los años únicos presentes y ordenarlos
+      const yearsSet = new Set();
+      parsedDataset.forEach(row => {
+        const yr = parseInt(row.checkoutyear, 10);
+        if (!isNaN(yr)) yearsSet.add(yr);
+      });
+      const years = Array.from(yearsSet).sort((a, b) => a - b);
+
+      // Estructura de categorías consolidadas
+      const categories = {
+        'E-Books (Libros Electrónicos)': {
+          color: DUKE_PALETTE.ebook,
+          markerSymbol: 'circle',
+          valuesByYear: {},
+          rawFormats: ['EBOOK', 'Ebook']
+        },
+        'Audiolibros (Audiobooks)': {
+          color: DUKE_PALETTE.audiobook,
+          markerSymbol: 'square',
+          valuesByYear: {},
+          rawFormats: ['AUDIOBOOK', 'Audiobook']
+        },
+        'Música y Canciones': {
+          color: DUKE_PALETTE.songMusic,
+          markerSymbol: 'diamond',
+          valuesByYear: {},
+          rawFormats: ['SONG', 'MUSIC']
+        },
+        'Revistas Digitales': {
+          color: DUKE_PALETTE.magazine,
+          markerSymbol: 'triangle-up',
+          valuesByYear: {},
+          rawFormats: ['MAGAZINE']
+        },
+        'Video y Televisión': {
+          color: DUKE_PALETTE.video,
+          markerSymbol: 'cross',
+          valuesByYear: {},
+          rawFormats: ['VIDEO', 'MOVIE', 'TELEVISION']
+        }
+      };
+
+      // Inicializar valores en 0 para cada año
+      Object.keys(categories).forEach(cat => {
+        years.forEach(yr => {
+          categories[cat].valuesByYear[yr] = 0;
+        });
+      });
+
+      // Acumular valores según la métrica seleccionada
+      parsedDataset.forEach(row => {
+        const yr = parseInt(row.checkoutyear, 10);
+        const format = (row.materialtype || '').trim().toUpperCase();
+        const val = parseFloat(row[metricKey]) || 0;
+
+        if (format === 'EBOOK') {
+          categories['E-Books (Libros Electrónicos)'].valuesByYear[yr] += val;
+        } else if (format === 'AUDIOBOOK') {
+          categories['Audiolibros (Audiobooks)'].valuesByYear[yr] += val;
+        } else if (format === 'SONG' || format === 'MUSIC') {
+          categories['Música y Canciones'].valuesByYear[yr] += val;
+        } else if (format === 'MAGAZINE') {
+          categories['Revistas Digitales'].valuesByYear[yr] += val;
+        } else if (format === 'VIDEO' || format === 'MOVIE' || format === 'TELEVISION') {
+          categories['Video y Televisión'].valuesByYear[yr] += val;
+        }
+      });
+
+      return { years, categories };
+    }
+
+    /**
+     * Calcula en tiempo de ejecución a partir del CSV exactamente un hallazgo conciso (máximo 2 oraciones),
+     * sin explicaciones causales no observables en los datos, e indicando explícitamente que las cuotas
+     * describen la muestra balanceada y no la circulación total de la biblioteca.
+     */
+    function computeAndDisplayFinding() {
+      const { years, categories } = processSeriesData('checkout_share');
+
+      const ebookShares = categories['E-Books (Libros Electrónicos)'].valuesByYear;
+      const audioShares = categories['Audiolibros (Audiobooks)'].valuesByYear;
+
+      const firstYear = years[0];
+      const audioFirstPct = (audioShares[firstYear] * 100).toFixed(1);
+      const ebookFirstPct = (ebookShares[firstYear] * 100).toFixed(1);
+
+      let crossoverYear = null;
+      let ebookCrossoverPct = null;
+      let audioCrossoverPct = null;
+
+      for (const yr of years) {
+        if (ebookShares[yr] > audioShares[yr]) {
+          crossoverYear = yr;
+          ebookCrossoverPct = (ebookShares[yr] * 100).toFixed(1);
+          audioCrossoverPct = (audioShares[yr] * 100).toFixed(1);
+          break;
+        }
+      }
+
+      const lastYear = years[years.length - 1];
+      const ebookLastPct = (ebookShares[lastYear] * 100).toFixed(1);
+      const audioLastPct = (audioShares[lastYear] * 100).toFixed(1);
+
+      // Oración 1: Evolución cuantitativa del cruce de formatos calculada directamente del CSV
+      const sentence1 = `En la muestra balanceada anual, los audiolibros representaron la mayor proporción de préstamos digitales entre ${firstYear} y ${crossoverYear - 1} (${audioFirstPct}% frente a ${ebookFirstPct}% de libros electrónicos en ${firstYear}), hasta que en ${crossoverYear} los libros electrónicos pasaron a liderar con un ${ebookCrossoverPct}% frente al ${audioCrossoverPct}% de audiolibros.`;
+
+      // Oración 2: Advertencia metodológica obligatoria (muestra balanceada vs circulación total) y cierre de 2025
+      const sentence2 = `Estas proporciones describen exclusivamente la muestra balanceada y no la circulación total de la biblioteca, alcanzando en ${lastYear} un cierre con ${ebookLastPct}% para libros electrónicos y ${audioLastPct}% para audiolibros.`;
+
+      const findingContainer = document.getElementById('dynamic-finding');
+      if (findingContainer) {
+        findingContainer.innerHTML = `<p style="font-size: 1.05rem; line-height: 1.7; color: #262626;">${sentence1} ${sentence2}</p>`;
+      }
+    }
+
+    // Configuración para la Carrera de Barras (Bar Race)
+    const RACE_CATEGORY_NAMES = [
+      'Libros Electrónicos (E-Books)',
+      'Audiolibros (Audiobooks)',
+      'Música y Canciones',
+      'Revistas Digitales',
+      'Video y Televisión'
+    ];
+
+    const RACE_CATEGORY_COLORS = {
+      'Libros Electrónicos (E-Books)': DUKE_PALETTE.ebook,
+      'Audiolibros (Audiobooks)': DUKE_PALETTE.audiobook,
+      'Música y Canciones': DUKE_PALETTE.songMusic,
+      'Revistas Digitales': DUKE_PALETTE.magazine,
+      'Video y Televisión': DUKE_PALETTE.video
+    };
+
+    let chartInstance = null;
+    let raceDataStore = null;
+    let currentRaceYear = 2006;
+    let isRacePlaying = false;
+    let raceTimerId = null;
+    const RACE_INTERVAL_MS = 1200;
+
+    /**
+     * Prepara y estructura los datos para la carrera animada año a año
+     */
+    function prepareRaceData(dataset) {
+      const raceData = {
+        checkout_share: {},
+        row_share: {}
+      };
+
+      for (let yr = 2006; yr <= 2025; yr++) {
+        raceData.checkout_share[yr] = {};
+        raceData.row_share[yr] = {};
+        RACE_CATEGORY_NAMES.forEach(cat => {
+          raceData.checkout_share[yr][cat] = 0;
+          raceData.row_share[yr][cat] = 0;
+        });
+      }
+
+      dataset.forEach(row => {
+        const yr = parseInt(row.checkoutyear, 10);
+        if (isNaN(yr) || yr < 2006 || yr > 2025) return;
+        const format = (row.materialtype || '').trim().toUpperCase();
+        const chkVal = (parseFloat(row.checkout_share) || 0) * 100;
+        const rowVal = (parseFloat(row.row_share) || 0) * 100;
+
+        let targetCat = null;
+        if (format === 'EBOOK') {
+          targetCat = 'Libros Electrónicos (E-Books)';
+        } else if (format === 'AUDIOBOOK') {
+          targetCat = 'Audiolibros (Audiobooks)';
+        } else if (format === 'SONG' || format === 'MUSIC') {
+          targetCat = 'Música y Canciones';
+        } else if (format === 'MAGAZINE') {
+          targetCat = 'Revistas Digitales';
+        } else if (format === 'VIDEO' || format === 'MOVIE' || format === 'TELEVISION') {
+          targetCat = 'Video y Televisión';
+        }
+
+        if (targetCat) {
+          raceData.checkout_share[yr][targetCat] += chkVal;
+          raceData.row_share[yr][targetCat] += rowVal;
+        }
+      });
+
+      return raceData;
+    }
+
+    /**
+     * Genera el arreglo de datos para la serie de la carrera para un año específico
+     */
+    function getRaceSeriesData(year, metricKey) {
+      if (!raceDataStore || !raceDataStore[metricKey] || !raceDataStore[metricKey][year]) {
+        return [];
+      }
+      return RACE_CATEGORY_NAMES.map(cat => ({
+        name: cat,
+        value: parseFloat((raceDataStore[metricKey][year][cat] || 0).toFixed(2)),
+        itemStyle: {
+          color: RACE_CATEGORY_COLORS[cat],
+          borderColor: '#001540',
+          borderWidth: 1.5,
+          borderRadius: [0, 6, 6, 0]
+        }
+      }));
+    }
+
+    /**
+     * Renderiza o inicializa la carrera de barras interactiva con Apache ECharts
+     */
+    function renderInteractiveChart(metricKey) {
+      if (metricKey) currentMetric = metricKey;
+      const isCheckoutShare = (currentMetric === 'checkout_share');
+      const metricLabel = isCheckoutShare ? 'Participación en Préstamos (%)' : 'Participación en Catálogo (%)';
+
+      // 1. Eliminar el indicador de carga una vez que el gráfico está listo
+      const loadingSpinner = document.getElementById('chart-loading-state');
+      if (loadingSpinner) {
+        loadingSpinner.remove();
+      }
+      const chartContainer = document.getElementById('echarts-chart');
+      if (chartContainer) {
+        chartContainer.style.display = 'block';
+      }
+
+      // 2. Inicializar instancia de Apache ECharts
+      if (!chartInstance) {
+        chartInstance = echarts.init(chartContainer);
+        window.addEventListener('resize', () => {
+          if (chartInstance) chartInstance.resize();
+        });
+      }
+
+      // 3. Obtener datos para el año actual
+      const initialSeriesData = getRaceSeriesData(currentRaceYear, currentMetric);
+
+      // 4. Configurar opciones del gráfico Bar Race con realtimeSort y watermark de año
+      const option = {
+        aria: {
+          enabled: true,
+          decal: { show: false }
+        },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: '#B5B5B5',
+          borderWidth: 1,
+          padding: [10, 14],
+          textStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            color: '#262626'
+          },
+          formatter: function(params) {
+            const mLabel = (currentMetric === 'checkout_share') ? 'Cuota de Préstamos' : 'Cuota de Catálogo';
+            return `<b>Año de Circulación: ${currentRaceYear}</b><br/>${params.marker} <b>${params.name}</b><br/>${mLabel}: <b>${params.value.toFixed(2)}%</b>`;
+          }
+        },
+        grid: {
+          top: 30,
+          left: 20,
+          right: 70,
+          bottom: 50,
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          max: 75,
+          name: metricLabel,
+          nameLocation: 'middle',
+          nameGap: 30,
+          nameTextStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 13,
+            fontWeight: 'bold',
+            color: '#262626'
+          },
+          axisLabel: {
+            formatter: '{value}%',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            color: '#262626'
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#EAEAEA',
+              type: 'dashed'
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          data: RACE_CATEGORY_NAMES,
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 4,
+          axisLabel: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 13,
+            fontWeight: '600',
+            color: '#262626'
+          },
+          axisLine: {
+            lineStyle: {
+              color: '#B5B5B5'
+            }
+          },
+          axisTick: {
+            show: false
+          }
+        },
+        series: [
+          {
+            realtimeSort: true,
+            name: 'Cuota',
+            type: 'bar',
+            barWidth: 36,
+            data: initialSeriesData,
+            label: {
+              show: true,
+              position: 'right',
+              valueAnimation: true,
+              formatter: '{c}%',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 13,
+              fontWeight: 'bold',
+              color: '#262626'
+            }
+          }
+        ],
+        graphic: {
+          elements: [
+            {
+              type: 'text',
+              right: 35,
+              bottom: 45,
+              style: {
+                text: String(currentRaceYear),
+                font: 'bolder 80px Inter, sans-serif',
+                fill: 'rgba(1, 33, 105, 0.22)'
+              },
+              z: 10
+            }
+          ]
+        },
+        animationDuration: 0,
+        animationDurationUpdate: 1000,
+        animationEasing: 'linear',
+        animationEasingUpdate: 'linear'
+      };
+
+      chartInstance.setOption(option, true);
+    }
+
+    /**
+     * Actualiza el año actual de la carrera animando barras, etiquetas y marca de agua
+     */
+    function updateRaceYear(year, animate = true) {
+      currentRaceYear = year;
+
+      // Sincronizar control deslizante y etiqueta de año
+      const slider = document.getElementById('race-year-slider');
+      const badge = document.getElementById('race-year-badge');
+      if (slider) {
+        slider.value = year;
+        slider.setAttribute('aria-valuenow', year);
+      }
+      if (badge) badge.textContent = year;
+
+      if (!chartInstance || !raceDataStore) return;
+
+      const metricLabel = (currentMetric === 'checkout_share') ? 'Participación en Préstamos (%)' : 'Participación en Catálogo (%)';
+      const updatedSeriesData = getRaceSeriesData(year, currentMetric);
+
+      chartInstance.setOption({
+        animationDurationUpdate: animate ? 1000 : 250,
+        xAxis: {
+          name: metricLabel
+        },
+        graphic: {
+          elements: [
+            {
+              type: 'text',
+              right: 35,
+              bottom: 45,
+              style: {
+                text: String(year)
+              }
+            }
+          ]
+        },
+        series: [
+          {
+            data: updatedSeriesData
+          }
+        ]
+      });
+    }
+
+    /**
+     * Inicia la reproducción animada de la carrera
+     */
+    function playRace() {
+      if (isRacePlaying) return;
+      if (currentRaceYear >= 2025) {
+        currentRaceYear = 2006;
+        updateRaceYear(currentRaceYear, false);
+      }
+      isRacePlaying = true;
+      updatePlayButtonUI();
+
+      raceTimerId = setInterval(() => {
+        if (currentRaceYear >= 2025) {
+          pauseRace();
+          return;
+        }
+        currentRaceYear++;
+        updateRaceYear(currentRaceYear, true);
+      }, RACE_INTERVAL_MS);
+    }
+
+    /**
+     * Pausa la animación de la carrera
+     */
+    function pauseRace() {
+      isRacePlaying = false;
+      if (raceTimerId) {
+        clearInterval(raceTimerId);
+        raceTimerId = null;
+      }
+      updatePlayButtonUI();
+    }
+
+    /**
+     * Alterna entre reproducir y pausar
+     */
+    function togglePlayRace() {
+      if (isRacePlaying) {
+        pauseRace();
+      } else {
+        playRace();
+      }
+    }
+
+    /**
+     * Reinicia la carrera desde 2006 y comienza la reproducción
+     */
+    function restartRace() {
+      pauseRace();
+      currentRaceYear = 2006;
+      updateRaceYear(2006, false);
+      playRace();
+    }
+
+    /**
+     * Manejador de entrada del control deslizante de años
+     */
+    function onSliderInput(val) {
+      pauseRace();
+      const yr = parseInt(val, 10);
+      if (!isNaN(yr)) {
+        updateRaceYear(yr, false);
+      }
+    }
+
+    /**
+     * Actualiza el icono y texto del botón de reproducción con soporte ARIA
+     */
+    function updatePlayButtonUI() {
+      const icon = document.getElementById('play-icon');
+      const text = document.getElementById('play-text');
+      const btn = document.getElementById('btn-play-race');
+      if (isRacePlaying) {
+        if (icon) icon.textContent = '⏸';
+        if (text) text.textContent = 'Pausar';
+        if (btn) {
+          btn.classList.add('playing');
+          btn.setAttribute('aria-label', 'Pausar animación de carrera de formatos');
+        }
+      } else {
+        if (icon) icon.textContent = '▶';
+        if (text) text.textContent = 'Reproducir';
+        if (btn) {
+          btn.classList.remove('playing');
+          btn.setAttribute('aria-label', 'Reproducir animación de carrera de formatos');
+        }
+      }
+    }
+
+    /**
+     * Alterna la métrica seleccionada entre cuota de préstamos y cuota de catálogo con estado aria-pressed
+     */
+    function switchMetric(metricKey) {
+      currentMetric = metricKey;
+      
+      // Actualizar estado activo y aria-pressed en los botones
+      const btnCheckout = document.getElementById('btn-checkout-share');
+      const btnRow = document.getElementById('btn-row-share');
+
+      if (metricKey === 'checkout_share') {
+        btnCheckout.classList.add('active');
+        btnCheckout.setAttribute('aria-pressed', 'true');
+        btnRow.classList.remove('active');
+        btnRow.setAttribute('aria-pressed', 'false');
+      } else {
+        btnRow.classList.add('active');
+        btnRow.setAttribute('aria-pressed', 'true');
+        btnCheckout.classList.remove('active');
+        btnCheckout.setAttribute('aria-pressed', 'false');
+      }
+
+      updateRaceYear(currentRaceYear, false);
+    }
+
+    /**
+     * Extrae el formato digital con mayor cuota de préstamos para cada año,
+     * consolidando variantes de capitalización (EBOOK/Ebook, AUDIOBOOK/Audiobook, etc.)
+     * con la misma agrupación canónica que utiliza el gráfico de carrera de barras.
+     */
+    function computeTopMaterialPerYear(dataset) {
+      // Mismo mapeo canónico que prepareRaceData y processSeriesData
+      function canonicalCategory(rawType) {
+        const upper = (rawType || '').trim().toUpperCase();
+        if (upper === 'EBOOK')      return 'EBOOK';
+        if (upper === 'AUDIOBOOK')  return 'AUDIOBOOK';
+        if (upper === 'SONG' || upper === 'MUSIC') return 'MUSIC';
+        if (upper === 'MAGAZINE')   return 'MAGAZINE';
+        if (upper === 'VIDEO' || upper === 'MOVIE' || upper === 'TELEVISION') return 'VIDEO';
+        return upper;
+      }
+
+      const CATEGORY_LABELS = {
+        'EBOOK':     'Libro Electrónico (E-Book)',
+        'AUDIOBOOK': 'Audiolibro (Audiobook)',
+        'MUSIC':     'Música y Canciones',
+        'MAGAZINE':  'Revista Digital',
+        'VIDEO':     'Video y Televisión'
+      };
+
+      // 1. Agrupar filas por año
+      const yearsMap = {};
+      dataset.forEach(row => {
+        const yr = parseInt(row.checkoutyear, 10);
+        if (isNaN(yr)) return;
+        if (!yearsMap[yr]) yearsMap[yr] = [];
+        yearsMap[yr].push(row);
+      });
+
+      // 2. Para cada año, consolidar variantes en categorías canónicas y luego elegir la dominante
+      const topRows = [];
+      Object.keys(yearsMap).sort((a, b) => parseInt(a) - parseInt(b)).forEach(yr => {
+        const yrNum = parseInt(yr, 10);
+        const rowsInYear = yearsMap[yr];
+
+        // Acumular valores por categoría canónica
+        const consolidated = {};
+        let yearTotal = 0;
+        rowsInYear.forEach(r => {
+          const cat = canonicalCategory(r.materialtype);
+          if (!consolidated[cat]) {
+            consolidated[cat] = { checkouts: 0, checkoutShare: 0, rowShare: 0 };
+          }
+          consolidated[cat].checkouts    += parseInt(r.sample_checkouts, 10) || 0;
+          consolidated[cat].checkoutShare += parseFloat(r.checkout_share) || 0;
+          consolidated[cat].rowShare      += parseFloat(r.row_share) || 0;
+          yearTotal = parseInt(r.year_total_checkouts, 10) || yearTotal;
+        });
+
+        // Encontrar la categoría con mayor cuota consolidada de préstamos
+        let topCat = null;
+        let topShare = -1;
+        Object.keys(consolidated).forEach(cat => {
+          if (consolidated[cat].checkoutShare > topShare) {
+            topShare = consolidated[cat].checkoutShare;
+            topCat = cat;
+          }
+        });
+
+        topRows.push({
+          checkoutyear: yrNum,
+          materialtype: topCat,
+          formatLabel: CATEGORY_LABELS[topCat] || topCat,
+          sample_checkouts: consolidated[topCat].checkouts,
+          year_total_checkouts: yearTotal,
+          checkout_share: consolidated[topCat].checkoutShare * 100,
+          row_share: consolidated[topCat].rowShare * 100
+        });
+      });
+
+      return topRows;
+    }
+
+    let gridApi = null;
+
+    /**
+     * Inicializa la tabla interactiva utilizando AG Grid Community 32
+     */
+    function initAgGrid(dataset) {
+      const topMaterialRows = computeTopMaterialPerYear(dataset);
+      const gridDiv = document.querySelector('#material-grid');
+      if (!gridDiv) return;
+
+      const gridOptions = {
+        rowData: topMaterialRows,
+        columnDefs: [
+          {
+            field: 'checkoutyear',
+            headerName: 'Año',
+            width: 105,
+            sort: 'desc',
+            filter: 'agNumberColumnFilter',
+            cellStyle: { fontWeight: '700', color: '#012169', textAlign: 'center' }
+          },
+          {
+            field: 'formatLabel',
+            headerName: 'Formato Dominante',
+            flex: 1.3,
+            minWidth: 190,
+            filter: 'agTextColumnFilter',
+            cellRenderer: (params) => {
+              const isAudio = params.data.materialtype === 'AUDIOBOOK';
+              const bg = isAudio ? 'rgba(200, 78, 0, 0.12)' : 'rgba(1, 33, 105, 0.12)';
+              const color = isAudio ? '#9C3A00' : '#012169';
+              const border = isAudio ? '#9C3A00' : '#012169';
+              return `<span style="display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 0.82rem; background: ${bg}; color: ${color}; border: 1px solid ${border};">${params.value}</span>`;
+            }
+          },
+          {
+            field: 'sample_checkouts',
+            headerName: 'Préstamos Muestreados',
+            flex: 1,
+            minWidth: 160,
+            type: 'numericColumn',
+            filter: 'agNumberColumnFilter',
+            valueFormatter: (params) => params.value ? params.value.toLocaleString() : '0'
+          },
+          {
+            field: 'checkout_share',
+            headerName: 'Cuota de Préstamos (%)',
+            flex: 1.2,
+            minWidth: 180,
+            type: 'numericColumn',
+            filter: 'agNumberColumnFilter',
+            cellRenderer: (params) => {
+              const pct = params.value ? params.value.toFixed(2) : '0.00';
+              const isAudio = params.data.materialtype === 'AUDIOBOOK';
+              const barColor = isAudio ? '#C84E00' : '#012169';
+              return `
+                <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: 100%; height: 100%;">
+                  <span style="font-weight: 600;">${pct}%</span>
+                  <div style="width: 50px; height: 6px; background: #E5E5E5; border-radius: 3px; overflow: hidden;">
+                    <div style="width: ${Math.min(parseFloat(pct), 100)}%; height: 100%; background: ${barColor};"></div>
+                  </div>
+                </div>
+              `;
+            }
+          },
+          {
+            field: 'row_share',
+            headerName: 'Cuota de Catálogo (%)',
+            flex: 1,
+            minWidth: 150,
+            type: 'numericColumn',
+            filter: 'agNumberColumnFilter',
+            valueFormatter: (params) => params.value ? params.value.toFixed(2) + '%' : '0.00%'
+          },
+          {
+            field: 'year_total_checkouts',
+            headerName: 'Total del Año en Muestra',
+            flex: 1.1,
+            minWidth: 170,
+            type: 'numericColumn',
+            filter: 'agNumberColumnFilter',
+            valueFormatter: (params) => params.value ? params.value.toLocaleString() : '0'
+          }
+        ],
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true
+        },
+        pagination: true,
+        paginationPageSize: 10,
+        paginationPageSizeSelector: [10, 20],
+        rowHeight: 42,
+        headerHeight: 44
+      };
+
+      if (!gridApi) {
+        gridApi = agGrid.createGrid(gridDiv, gridOptions);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // Sección 2: Títulos Más Prestados por Año (top_sampled_titles)
+    // ═══════════════════════════════════════════════════════════════════
+
+    let titlesChartInstance = null;
+
+    /**
+     * Carga y renderiza la visualización de títulos más prestados por año
+     */
+    async function loadTopTitles() {
+      const csvPath = 'dashboard_data/digital_top_sampled_titles_by_year.csv';
+      try {
+        const response = await fetch(csvPath);
+        if (!response.ok) {
+          throw new Error(`Error HTTP ${response.status} al intentar cargar "${csvPath}"`);
+        }
+        const textData = await response.text();
+        const titlesData = parseCSV(textData);
+        if (titlesData.length === 0) {
+          throw new Error('El archivo CSV de títulos se leyó pero no contiene filas de datos.');
+        }
+
+        computeTopTitlesFinding(titlesData);
+        renderTopTitlesChart(titlesData);
+        initTitlesAgGrid(titlesData);
+      } catch (err) {
+        console.error('Error al cargar datos de títulos:', err);
+        const container = document.getElementById('titles-echarts-chart');
+        if (container) {
+          container.style.display = 'block';
+          container.innerHTML = `
+            <div class="error-banner">
+              <strong>No se pudo cargar el archivo de títulos:</strong>
+              <p>${err.message}</p>
+            </div>
+          `;
+        }
+        const spinner = document.getElementById('titles-chart-loading');
+        if (spinner) spinner.remove();
+      }
+    }
+
+    /**
+     * Calcula y muestra un hallazgo conciso derivado del CSV de títulos más prestados.
+     * Identifica el título con más préstamos muestreados en un solo año y su recurrencia.
+     */
+    function computeTopTitlesFinding(titlesData) {
+      // Extraer los títulos #1 de cada año
+      const rank1Rows = titlesData.filter(r => parseInt(r.yearly_rank, 10) === 1);
+
+      // Encontrar el título #1 con más préstamos en un solo año
+      let peakRow = rank1Rows[0];
+      rank1Rows.forEach(r => {
+        if (parseInt(r.checkouts, 10) > parseInt(peakRow.checkouts, 10)) {
+          peakRow = r;
+        }
+      });
+
+      const peakTitle = peakRow.title || '';
+      const peakCreator = peakRow.creator || '';
+      const peakCheckouts = parseInt(peakRow.checkouts, 10);
+      const peakYear = peakRow.checkoutyear;
+
+      // Contar en cuántos años aparece ese mismo título como #1
+      // Normalizar el nombre del título eliminando indicadores de formato (unabridged, etc.)
+      function normalizeTitle(t) {
+        return (t || '').replace(/\s*\(unabridged\)/gi, '').replace(/\s*\(abridged\)/gi, '').trim();
+      }
+
+      const peakNormalized = normalizeTitle(peakTitle);
+      const yearsAsNumber1 = rank1Rows.filter(r => normalizeTitle(r.title) === peakNormalized).length;
+
+      // Segundo hallazgo: formato dominante entre los #1
+      const formatCounts = {};
+      rank1Rows.forEach(r => {
+        const fmt = (r.materialtype || '').trim().toUpperCase();
+        let canonical = fmt;
+        if (fmt === 'EBOOK') canonical = 'E-Book';
+        else if (fmt === 'AUDIOBOOK') canonical = 'Audiolibro';
+        else if (fmt === 'MAGAZINE') canonical = 'Revista';
+        else if (fmt === 'SONG' || fmt === 'MUSIC') canonical = 'Música';
+        formatCounts[canonical] = (formatCounts[canonical] || 0) + 1;
+      });
+      const sortedFormats = Object.entries(formatCounts).sort((a, b) => b[1] - a[1]);
+      const topFormat = sortedFormats[0][0];
+      const topFormatCount = sortedFormats[0][1];
+
+      const creatorClause = peakCreator ? ` de ${peakCreator}` : '';
+      const recurrence = yearsAsNumber1 > 1
+        ? `, título que se mantuvo como #1 durante ${yearsAsNumber1} años consecutivos`
+        : '';
+
+      const sentence1 = `Dentro de la muestra balanceada (no la circulación total de la biblioteca), el título con más préstamos muestreados en un solo año fue «${peakTitle}»${creatorClause}, con ${peakCheckouts.toLocaleString()} préstamos en ${peakYear}${recurrence}.`;
+      const sentence2 = `De los 20 años analizados, el formato ${topFormat} ocupó la posición #1 en ${topFormatCount} de ellos.`;
+
+      const container = document.getElementById('titles-finding');
+      if (container) {
+        container.innerHTML = `<p style="font-size: 1.05rem; line-height: 1.7; color: #262626;">${sentence1} ${sentence2}</p>`;
+      }
+    }
+
+    /**
+     * Renderiza un gráfico de barras horizontales con el título #1 de cada año,
+     * coloreado por formato y mostrando los préstamos muestreados.
+     */
+    function renderTopTitlesChart(titlesData) {
+      // Eliminar spinner de carga
+      const spinner = document.getElementById('titles-chart-loading');
+      if (spinner) spinner.remove();
+      const chartContainer = document.getElementById('titles-echarts-chart');
+      if (!chartContainer) return;
+      chartContainer.style.display = 'block';
+
+      // Inicializar ECharts
+      if (!titlesChartInstance) {
+        titlesChartInstance = echarts.init(chartContainer);
+        window.addEventListener('resize', () => {
+          if (titlesChartInstance) titlesChartInstance.resize();
+        });
+      }
+
+      // Extraer los títulos #1 de cada año, ordenados cronológicamente
+      const rank1Rows = titlesData
+        .filter(r => parseInt(r.yearly_rank, 10) === 1)
+        .sort((a, b) => parseInt(a.checkoutyear, 10) - parseInt(b.checkoutyear, 10));
+
+      // Mapa de colores por tipo de material canónico
+      const FORMAT_COLORS = {
+        'EBOOK':     DUKE_PALETTE.ebook,
+        'AUDIOBOOK': DUKE_PALETTE.audiobook,
+        'MAGAZINE':  DUKE_PALETTE.magazine,
+        'SONG':      DUKE_PALETTE.songMusic,
+        'MUSIC':     DUKE_PALETTE.songMusic,
+        'VIDEO':     DUKE_PALETTE.video
+      };
+
+      const FORMAT_LABELS = {
+        'EBOOK':     'E-Book',
+        'AUDIOBOOK': 'Audiolibro',
+        'MAGAZINE':  'Revista',
+        'SONG':      'Música',
+        'MUSIC':     'Música',
+        'VIDEO':     'Video'
+      };
+
+      // Preparar datos para el gráfico
+      const years = rank1Rows.map(r => r.checkoutyear);
+
+      // Truncar títulos largos para las etiquetas del eje Y
+      function truncateTitle(title, maxLen) {
+        if (title.length <= maxLen) return title;
+        return title.substring(0, maxLen - 1) + '…';
+      }
+
+      const yLabels = rank1Rows.map(r => {
+        const fmt = (r.materialtype || '').trim().toUpperCase();
+        const formatTag = FORMAT_LABELS[fmt] || fmt;
+        const shortTitle = truncateTitle(r.title, 30);
+        return `${r.checkoutyear} — ${shortTitle} [${formatTag}]`;
+      });
+
+      const seriesData = rank1Rows.map(r => {
+        const fmt = (r.materialtype || '').trim().toUpperCase();
+        return {
+          value: parseInt(r.checkouts, 10) || 0,
+          itemStyle: {
+            color: FORMAT_COLORS[fmt] || DUKE_PALETTE.other,
+            borderColor: '#001540',
+            borderWidth: 1.5,
+            borderRadius: [0, 6, 6, 0]
+          },
+          _title: r.title,
+          _creator: r.creator,
+          _format: FORMAT_LABELS[fmt] || fmt,
+          _year: r.checkoutyear
+        };
+      });
+
+      // Datos de leyenda personalizada (formatos únicos presentes en los #1)
+      const uniqueFormats = {};
+      rank1Rows.forEach(r => {
+        const fmt = (r.materialtype || '').trim().toUpperCase();
+        const label = FORMAT_LABELS[fmt] || fmt;
+        if (!uniqueFormats[label]) {
+          uniqueFormats[label] = FORMAT_COLORS[fmt] || DUKE_PALETTE.other;
+        }
+      });
+
+      const option = {
+        aria: {
+          enabled: true,
+          decal: { show: false }
+        },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: '#B5B5B5',
+          borderWidth: 1,
+          padding: [10, 14],
+          textStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            color: '#262626'
+          },
+          formatter: function(params) {
+            const d = params.data;
+            const creatorLine = d._creator ? `<br/>Autor(a): <b>${d._creator}</b>` : '';
+            return `<b>Año ${d._year}</b><br/>` +
+              `${params.marker} <b>${d._title}</b>${creatorLine}<br/>` +
+              `Formato: <b>${d._format}</b><br/>` +
+              `Préstamos muestreados: <b>${d.value.toLocaleString()}</b>`;
+          }
+        },
+        legend: {
+          top: 8,
+          left: 'center',
+          orient: 'horizontal',
+          itemGap: 18,
+          itemWidth: 14,
+          itemHeight: 14,
+          data: Object.keys(uniqueFormats).map(label => ({
+            name: label,
+            itemStyle: { color: uniqueFormats[label] }
+          })),
+          textStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            color: '#262626'
+          }
+        },
+        grid: {
+          top: 50,
+          left: 20,
+          right: 80,
+          bottom: 40,
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value',
+          name: 'Préstamos Muestreados',
+          nameLocation: 'middle',
+          nameGap: 28,
+          nameTextStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 13,
+            fontWeight: 'bold',
+            color: '#262626'
+          },
+          axisLabel: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 11,
+            color: '#262626',
+            formatter: function(val) {
+              return val >= 1000 ? (val / 1000).toFixed(1) + 'K' : val;
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#EAEAEA',
+              type: 'dashed'
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          name: 'Año, Título y [Formato]',
+          nameTextStyle: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: '#262626'
+          },
+          data: yLabels,
+          inverse: true,
+          axisLabel: {
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 11,
+            fontWeight: '500',
+            color: '#262626',
+            width: 320,
+            overflow: 'truncate'
+          },
+          axisLine: {
+            lineStyle: { color: '#B5B5B5' }
+          },
+          axisTick: { show: false }
+        },
+        series: [
+          {
+            name: 'Préstamos',
+            type: 'bar',
+            barWidth: 22,
+            data: seriesData,
+            label: {
+              show: true,
+              position: 'right',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 11,
+              fontWeight: 'bold',
+              color: '#262626',
+              formatter: function(params) {
+                return params.value.toLocaleString();
+              }
+            }
+          }
+        ],
+        // Leyenda manual invisible para estilizar el tooltip marker
+        color: Object.values(uniqueFormats)
+      };
+
+      titlesChartInstance.setOption(option, true);
+    }
+
+    let titlesGridApi = null;
+
+    /**
+     * Inicializa la tabla accesible de títulos más prestados por año utilizando AG Grid Community 32
+     */
+    function initTitlesAgGrid(titlesData) {
+      const rank1Rows = titlesData
+        .filter(r => parseInt(r.yearly_rank, 10) === 1)
+        .sort((a, b) => parseInt(b.checkoutyear, 10) - parseInt(a.checkoutyear, 10));
+
+      const gridDiv = document.querySelector('#titles-grid');
+      if (!gridDiv) return;
+
+      const FORMAT_LABELS_GRID = {
+        'EBOOK':     'Libro Electrónico (E-Book)',
+        'AUDIOBOOK': 'Audiolibro (Audiobook)',
+        'MAGAZINE':  'Revista Digital',
+        'SONG':      'Música',
+        'MUSIC':     'Música',
+        'VIDEO':     'Video y Televisión'
+      };
+
+      const gridOptions = {
+        rowData: rank1Rows,
+        columnDefs: [
+          {
+            field: 'checkoutyear',
+            headerName: 'Año',
+            width: 100,
+            sort: 'desc',
+            filter: 'agNumberColumnFilter',
+            cellStyle: { fontWeight: '700', color: '#012169', textAlign: 'center' }
+          },
+          {
+            field: 'title',
+            headerName: 'Título de la Obra (#1 del Año)',
+            flex: 2,
+            minWidth: 260,
+            filter: 'agTextColumnFilter',
+            cellStyle: { fontWeight: '600', color: '#262626' }
+          },
+          {
+            field: 'creator',
+            headerName: 'Autor / Creador',
+            flex: 1.2,
+            minWidth: 170,
+            filter: 'agTextColumnFilter',
+            valueFormatter: (params) => params.value ? params.value : '(No registrado)'
+          },
+          {
+            field: 'materialtype',
+            headerName: 'Formato',
+            width: 200,
+            filter: 'agTextColumnFilter',
+            cellRenderer: (params) => {
+              const raw = (params.value || '').trim().toUpperCase();
+              const isAudio = raw === 'AUDIOBOOK';
+              const bg = isAudio ? 'rgba(200, 78, 0, 0.12)' : 'rgba(1, 33, 105, 0.12)';
+              const color = isAudio ? '#9C3A00' : '#012169';
+              const border = isAudio ? '#9C3A00' : '#012169';
+              const label = FORMAT_LABELS_GRID[raw] || raw;
+              return `<span style="display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 0.82rem; background: ${bg}; color: ${color}; border: 1px solid ${border};">${label}</span>`;
+            }
+          },
+          {
+            field: 'checkouts',
+            headerName: 'Préstamos Muestreados',
+            flex: 1,
+            minWidth: 160,
+            type: 'numericColumn',
+            filter: 'agNumberColumnFilter',
+            valueFormatter: (params) => params.value ? parseInt(params.value, 10).toLocaleString() : '0'
+          }
+        ],
+        defaultColDef: {
+          sortable: true,
+          filter: true,
+          resizable: true
+        },
+        pagination: true,
+        paginationPageSize: 10,
+        paginationPageSizeSelector: [10, 20],
+        rowHeight: 42,
+        headerHeight: 44
+      };
+
+      if (!titlesGridApi) {
+        titlesGridApi = agGrid.createGrid(gridDiv, gridOptions);
+      }
+    }
+
+    // Iniciar la carga al cargar el DOM
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDataset();
+      loadTopTitles();
+    });
+  </script>
+</body>
+</html>
